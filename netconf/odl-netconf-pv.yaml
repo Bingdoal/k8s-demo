@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: odl-netconf-pv
+  namespace: default
+  labels:
+    name: odl-netconf-pv
+spec:
+  storageClassName: odl
+  capacity:
+    storage: "5Gi"
+  accessModes:
+    - "ReadWriteOnce"
+  persistentVolumeReclaimPolicy: "Retain"
+  hostPath:
+    path: /home/data/delta/odl-netconf

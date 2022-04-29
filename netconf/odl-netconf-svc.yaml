@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: odl-netconf-svc
+  namespace: default
+spec:
+  selector:
+    app: odl-netconf-pod
+  type: NodePort
+  ports:
+    - name: callhome-tcp-port
+      protocol: TCP
+      port: 4334
+      targetPort: callhome-port
+      nodePort: 30043
+    - name: north-http-port
+      protocol: TCP
+      port: 8181
+      targetPort: north-port
+      nodePort: 30081

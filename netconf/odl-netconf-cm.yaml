@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odl-netconf-cm
+  namespace: default
+data:
+  RBMQ_HOST: "60.251.156.215"
+  RBMQ_PORT: "5672"
+  RBMQ_VIRTUALHOST: "/"
+  RBMQ_USERNAME: "admin"
+  RBMQ_EXCHANGE: "amq.topic"
+  RBMQ_QUEUE: "odl-to-nms"
+  RBMQ_ROUTEKEY: "policy-service.log"
+  REDIS_HOST: "127.0.0.1"
+  REDIS_PORT: "6379"

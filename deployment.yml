@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-ts-depl
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: express-ts-label
+    spec:
+      containers:
+        - name: express-ts
+          image: bingdoal/express-ts
+          ports:
+            - containerPort: 3000
+  selector:
+    matchLabels:
+      app: express-ts-label

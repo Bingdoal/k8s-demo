@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: odl-netconf-depl
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: odl-netconf-pod
+      name: odl-netconf-pod
+    spec:
+      containers:
+      - name: odl-netconf
+        image: bingdoal/odl-netconf:1.0.6
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 4334
+            name: callhome-port
+            protocol: TCP
+          - containerPort: 8181
+            name: north-port
+            protocol: TCP
+          - containerPort: 22
+            name: ssh-port
+            protocol: TCP
+        env:
+        - name: RBMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_HOST
+              name: odl-netconf-cm
+        - name: RBMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_PORT
+              name: odl-netconf-cm
+        - name: RBMQ_VIRTUALHOST
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_VIRTUALHOST
+              name: odl-netconf-cm
+        - name: RBMQ_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_USERNAME
+              name: odl-netconf-cm
+        - name: RBMQ_EXCHANGE
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_EXCHANGE
+              name: odl-netconf-cm
+        - name: RBMQ_QUEUE
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_QUEUE
+              name: odl-netconf-cm
+        - name: RBMQ_ROUTEKEY
+          valueFrom:
+            configMapKeyRef:
+              key: RBMQ_ROUTEKEY
+              name: odl-netconf-cm
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_HOST
+              name: odl-netconf-cm
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_PORT
+              name: odl-netconf-cm
+        - name: RBMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: RBMQ_PASSWORD
+              name: odl-netconf-secret
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: REDIS_PASSWORD
+              name: odl-netconf-secret
+      restartPolicy: Always
+      # imagePullSecrets:
+      # - name: harbor-regkey
+      volumes:
+      - name: odl-volume
+        persistentVolumeClaim:
+          claimName: odl-netconf-pvc
+  selector:
+    matchLabels:
+      app: odl-netconf-pod

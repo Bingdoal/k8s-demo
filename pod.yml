@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: express-ts
+  labels:
+    app: express-ts-label
+spec:
+  containers:
+  - name: express-ts
+    image: bingdoal/express-ts
+    ports:
+    - containerPort: 3000
